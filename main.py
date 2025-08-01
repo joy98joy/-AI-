@@ -1,5 +1,6 @@
 # ' ' , _=_ 수정 ,들여쓰기 공백, Python의 coding style guide가이드를 준수
-def read_log_file(filename="mission_computer_main.log"):
+import json
+def main(filename="mission_computer_main.log"):
     
     try:
         with open(filename, 'r', encoding='utf-8') as file:
@@ -65,15 +66,34 @@ def read_log_file(filename="mission_computer_main.log"):
 
     del TimeStamp[0]
     TimeStampDict = {"TimeStamp":TimeStamp}
-    print(TimeStampDict)
+    # print(TimeStampDict)
 
     del Event[0]
     EnventDict = {"Event": Event}
     
     del Message[0] 
     MessageDict = {"Message": Message} 
-
-
+    def save_dict_to_json(data_dict1,data_dict2,data_dict3, filename="mission_computer_main.json"):
+   
+      try:
+        with open(filename, 'w', encoding='utf-8') as file:
+            json.dump(data_dict1, file, ensure_ascii=False, indent=4)
+            json.dump(data_dict2, file, ensure_ascii=False,indent=4)
+            json.dump(data_dict3, file, ensure_ascii=False,indent=4)
+        return print(f"'{filename}' 파일이 성공적으로 저장되었습니다.")
+      except IOError as error:
+        return print(f"파일 저장 중 오류가 발생했습니다: {error}")
+      # except TypeError as error:
+      #   return print(f"JSON 직렬화 오류: 지원되지 않는 타입이 딕셔너리에 포함되어 있습니다. {error}")
+      except FileNotFoundError:
+        print(f"오류: '{filename}' 파일을 찾을 수 없습니다. 새로운 파일로 저장합니다.")
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(data_dict1,data_dict2,data_dict3, f, ensure_ascii=False)
+      except json.JSONDecodeError:
+        print(f"오류: '{filename}' 파일이 유효한 JSON 형식이 아닙니다.")
+      except Exception as e:
+        print(f"오류가 발생했습니다: {e}")
+    return save_dict_to_json(TimeStampDict,EnventDict,MessageDict)
 
     # timestamp,event,message 출력 x 
     # del reverseTimeStampDict[0]
@@ -97,7 +117,6 @@ def read_log_file(filename="mission_computer_main.log"):
     # print(prev)
 
 
-
-   
 if __name__ == "__main__":
-    read_log_file()
+    main()
+    
