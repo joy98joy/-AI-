@@ -12,7 +12,13 @@ def hello_world():
 
     return "Hello, DevOps!"
 
+@app.route('/menu')
 
+def menu():
+
+# 'templates' 폴더 안에 'menu.html' 파일이 있다고 가정
+
+    return render_template('menu.html')
 
 
 
